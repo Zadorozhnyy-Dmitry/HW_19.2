@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "hw-19-2"
+version = "0.1.0"
+description = ""
+authors = ["Dmitry Zadorozhnyy <zadorozhnyy_d_m@mail.ru>"]
+readme = "README.md"
+packages = [{include = "hw_19"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
