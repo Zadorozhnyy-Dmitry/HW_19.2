@@ -24,10 +24,10 @@ class Product(models.Model):
     price = models.FloatField(
         verbose_name="Цена за покупку", help_text="Введите стоимость товара"
     )
-    date_create = models.DateField(
+    created_at = models.DateField(
         verbose_name="Дата создания", help_text="Укажите дату записи в БД"
     )
-    date_change = models.DateField(
+    updated_at = models.DateField(
         verbose_name="Дата последнего изменения",
         help_text="Укажите дату последнего изменения",
     )
