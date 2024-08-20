@@ -18,8 +18,12 @@ class Product(models.Model):
         help_text="Загрузите фото товара",
         **NULLABLE,
     )
-    category = models.CharField(
-        max_length=50, verbose_name="Категория", help_text="Введите категорию товара"
+    category = models.ForeignKey(
+        on_delete=models.SET_NULL,
+        verbose_name="Категория",
+        help_text="Введите категорию товара",
+        related_name="products",
+        **NULLABLE,
     )
     price = models.FloatField(
         verbose_name="Цена за покупку", help_text="Введите стоимость товара"
