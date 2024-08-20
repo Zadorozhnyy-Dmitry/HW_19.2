@@ -3,6 +3,26 @@ from django.db import models
 NULLABLE = {"blank": True, "null": True}
 
 
+class Category(models.Model):
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Название категории",
+        help_text="Введите название категории товара",
+    )
+    description = models.TextField(
+        verbose_name="Описание категории",
+        help_text="Введите описание категории товара",
+        **NULLABLE,
+    )
+
+    class Meta:
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     name = models.CharField(
         max_length=100,
@@ -19,6 +39,7 @@ class Product(models.Model):
         **NULLABLE,
     )
     category = models.ForeignKey(
+        Category,
         on_delete=models.SET_NULL,
         verbose_name="Категория",
         help_text="Введите категорию товара",
@@ -39,27 +60,7 @@ class Product(models.Model):
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
-        ordering = ["name", "category", "date_create", "date_change"]
+        ordering = ["name", "category", "created_at", "updated_at"]
 
     def __str__(self):
         return f"{self.name} {self.category}"
-
-
-class Category(models.Model):
-    name = models.CharField(
-        max_length=100,
-        verbose_name="Название категории",
-        help_text="Введите название категории товара",
-    )
-    description = models.TextField(
-        verbose_name="Описание категории",
-        help_text="Введите описание категории товара",
-        **NULLABLE,
-    )
-
-    class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
-
-    def __str__(self):
-        return self.name
