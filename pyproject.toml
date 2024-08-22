@@ -13,6 +13,7 @@ psycopg2-binary = "^2.9.9"
 pillow = "^10.4.0"
 black = "^24.8.0"
 ipython = "^8.26.0"
+django-stubs = "^5.0.4"
 
 
 [build-system]
