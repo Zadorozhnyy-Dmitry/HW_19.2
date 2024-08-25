@@ -14,9 +14,12 @@
                 <h2 class="card-title pricing-card-title">{{ product.price }} руб.</h2>
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                     <p>Категория:</p>
-                    <li>{{ product.category | title}}</li>
-                    <l1>Описание:</l1>
-                    <li>{{ product.description | truncatechars:100 }}</li>
+                    <p>{{ product.category | title}}</p>
+                    <p>Описание:</p>
+                    <p>{{ product.description | truncatechars:100 }}</p>
+                    <p>Дата создания объявления: {{ product.created_at }}</p>
+                    <p>Дата изменения объявления: {{ product.updated_at }}</p>
+
                 </ul>
                 <div class="btn-group">
                     <a class="btn btn-lg btn-block btn-outline-primary" href="#" role="button">Купить</a>
