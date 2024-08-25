@@ -13,13 +13,15 @@
             <div class="card-body">
                 <h2 class="card-title pricing-card-title">{{ product.price }} руб.</h2>
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                    <l1>Категория:</l1>
+                    <p>Категория:</p>
                     <li>{{ product.category | title}}</li>
                     <l1>Описание:</l1>
                     <li>{{ product.description | truncatechars:100 }}</li>
                 </ul>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+                    <a class="btn btn-lg btn-block btn-outline-primary" href="#" role="button">Купить</a>
+                    <a class="btn btn-lg btn-block btn-outline-primary"
+                       href="{% url 'catalog:home' %}" role="button">Назад</a>
                 </div>
             </div>
         </div>
