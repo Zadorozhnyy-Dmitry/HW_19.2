@@ -1,12 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-
+from django.views.generic import ListView, DetailView
 from catalog.models import Product
 
 
-def home(request):
-    products = Product.objects.all()
-    context = {'products': products}
-    return render(request, "products_list.html", context)
+class ProductListView(ListView):
+    model = Product
 
 
 def contact(request):
@@ -15,10 +13,8 @@ def contact(request):
         phone = request.POST.get("phone")
         message = request.POST.get("message")
         print(f"You have new message from {name}({phone}): {message}")
-    return render(request, "contact.html")
+    return render(request, "catalog/contact.html")
 
 
-def product_about(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    context = {'product': product}
-    return render(request, 'product_about.html', context)
+class ProductDetailView(DetailView):
+    model = Product

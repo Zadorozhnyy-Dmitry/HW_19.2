@@ -1,4 +1,4 @@
-{% extends 'home.html' %}
+{% extends 'catalog/home.html' %}
 {% load my_tags %}
 {% block content %}
 
@@ -7,18 +7,18 @@
     <div class="col-3">
         <div class="card mb-4 box-shadow">
             <div class="card-header">
-                <img class='card-img-top' src="{{ product.photo | media_filter }}">
-                <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
+                <img class='card-img-top' src="{{ object.photo | media_filter }}">
+                <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
             </div>
             <div class="card-body">
-                <h2 class="card-title pricing-card-title">{{ product.price }} руб.</h2>
+                <h2 class="card-title pricing-card-title">{{ object.price }} руб.</h2>
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                     <p>Категория:</p>
-                    <p>{{ product.category | title}}</p>
+                    <p>{{ object.category | title}}</p>
                     <p>Описание:</p>
-                    <p>{{ product.description | truncatechars:100 }}</p>
-                    <p>Дата создания объявления: {{ product.created_at }}</p>
-                    <p>Дата изменения объявления: {{ product.updated_at }}</p>
+                    <p>{{ object.description | truncatechars:100 }}</p>
+                    <p>Дата создания объявления: {{ object.created_at }}</p>
+                    <p>Дата изменения объявления: {{ object.updated_at }}</p>
 
                 </ul>
                 <div class="btn-group">
