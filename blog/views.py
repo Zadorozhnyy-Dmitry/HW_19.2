@@ -14,6 +14,9 @@ from pytils.translit import slugify
 
 
 class BlogCreateView(CreateView):
+    """
+    Контроллер создания сообщения
+    """
     model = Blog
     fields = (
         "title",
@@ -23,6 +26,9 @@ class BlogCreateView(CreateView):
     success_url = reverse_lazy("blog:list")
 
     def form_valid(self, form):
+        """
+        Формирования slug для названия сообщения
+        """
         if form.is_valid():
             new_blog = form.save()
             new_blog.slug = slugify(new_blog.title)
@@ -31,6 +37,9 @@ class BlogCreateView(CreateView):
 
 
 class BlogUpdateView(UpdateView):
+    """
+    Контроллер редактирования сообщения
+    """
     model = Blog
     fields = (
         "title",
@@ -39,6 +48,9 @@ class BlogUpdateView(UpdateView):
     )
 
     def form_valid(self, form):
+        """
+        Формирования slug для названия сообщения
+        """
         if form.is_valid():
             new_blog = form.save()
             new_blog.slug = slugify(new_blog.title)
@@ -46,10 +58,16 @@ class BlogUpdateView(UpdateView):
         return super().form_valid(form)
 
     def get_success_url(self):
+        """
+        Перенаправление на нужное сообщение после редактирования
+        """
         return reverse("blog:view", args=[self.kwargs.get("pk")])
 
 
 class BlogListView(ListView):
+    """
+    Контроллер страницы просмотра сообщений блога
+    """
     model = Blog
 
     def get_queryset(self, *args, **kwargs):
@@ -59,15 +77,24 @@ class BlogListView(ListView):
 
 
 class BlogDetailView(DetailView):
+    """
+    Контроллер детального просмотра сообщений
+    """
     model = Blog
 
     def get_object(self, queryset=None):
+        """
+        Счетчик просмотров
+        """
         self.object = super().get_object(queryset)
         self.object.views_count += 1
-        self.object.save()
+        self.object.save(update_fields=['views_count'])
         return self.object
 
 
 class BlogDeleteView(DeleteView):
+    """
+    Контроллер удаления сообщения
+    """
     model = Blog
     success_url = reverse_lazy("blog:list")

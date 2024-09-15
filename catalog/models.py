@@ -4,6 +4,9 @@ NULLABLE = {"blank": True, "null": True}
 
 
 class Category(models.Model):
+    """
+    Модель описывает категории товаров
+    """
     name = models.CharField(
         max_length=100,
         verbose_name="Название категории",
@@ -24,6 +27,9 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    """
+    Модель описывает товар
+    """
     name = models.CharField(
         max_length=100,
         verbose_name="Наименование",
@@ -50,11 +56,10 @@ class Product(models.Model):
         verbose_name="Цена за покупку", help_text="Введите стоимость товара"
     )
     created_at = models.DateField(
-        verbose_name="Дата создания", help_text="Укажите дату записи в БД"
+        auto_now_add=True, verbose_name="Дата создания", help_text="Укажите дату записи в БД"
     )
     updated_at = models.DateField(
-        verbose_name="Дата последнего изменения",
-        help_text="Укажите дату последнего изменения",
+        auto_now=True, verbose_name="Дата последнего изменения", help_text="Укажите дату последнего изменения",
     )
 
     class Meta:
