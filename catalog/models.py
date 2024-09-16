@@ -69,3 +69,21 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name} {self.category}"
+
+
+class Version(models.Model):
+    """
+    Модель описывает версию товара
+    """
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='товар')
+    number_of_version = models.FloatField(verbose_name='номер версии')
+    title = models.CharField(max_length=150, verbose_name='название версии')
+    is_actual = models.BooleanField(default=True, verbose_name='признак текущей версии')
+
+    def __str__(self):
+        return f'{self.title}.версия {self.number_of_version}'
+
+    class Meta:
+        verbose_name = 'Версия'
+        verbose_name_plural = 'Версии'
+        ordering = ('product', 'is_actual',)

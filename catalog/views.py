@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView
 
-from catalog.forms import ProductForm
-from catalog.models import Product
+from catalog.forms import ProductForm, VersionForm
+from catalog.models import Product, Version
 from django.urls import reverse_lazy
+from django.forms import inlineformset_factory
 
 
 class ProductListView(ListView):
@@ -11,6 +12,14 @@ class ProductListView(ListView):
     Контроллер перечня товаров
     """
     model = Product
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        for product in context_data['object_list']:
+            actual_version = Version.objects.filter(product=product, is_actual=True).first()
+            product.actual_version = actual_version
+
+        return context_data
 
 
 def contact(request):

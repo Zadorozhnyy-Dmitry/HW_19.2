@@ -1,6 +1,6 @@
 from django import forms
 
-from catalog.models import Product
+from catalog.models import Product, Version
 from config.settings import UNVALID_WORDS
 
 
@@ -52,3 +52,12 @@ class ProductForm(forms.ModelForm):
             if word in UNVALID_WORDS:
                 raise forms.ValidationError('Текст содержит недопустимые слова')
         return cleaned_data
+
+
+class VersionForm(forms.ModelForm):
+    """
+    Форма для версии товара
+    """
+    class Meta:
+        model = Version
+        fields = '__all__'
