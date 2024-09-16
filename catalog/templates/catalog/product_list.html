@@ -1,0 +1,40 @@
+{% extends 'catalog/home.html' %}
+{% load my_tags %}
+{% block content %}
+
+<div class="row text-center">
+    <div class="col-12 mb-5">
+        <a class="btn btn-outline-primary" href="{% url 'catalog:create_product' %}">Добавить товар</a>
+    </div>
+
+    {% for object in object_list %}
+    <div class="col-3">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <img class='card-img-top' src="{{ object.photo | media_filter}}">
+                <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
+            </div>
+            <div class="card-body">
+                <h2 class="card-title pricing-card-title">{{ object.price }} руб.</h2>
+                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                    <l1>Описание:</l1>
+                    <li>{{ object.description | truncatechars:100 }}</li>
+                    <li>
+                        {% if object.actual_version%}
+                        Актуальная версия: {{object.actual_version}}
+
+                        {% endif %}
+                    </li>
+                </ul>
+                <div class="btn-group">
+                    <a class="btn btn-lg btn-block btn-outline-primary"
+                       href="{% url 'catalog:product_about' object.pk %}" role="button">О товаре</a>
+                    <a class="btn btn-lg btn-block btn-outline-primary" href="#" role="button">Купить</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
