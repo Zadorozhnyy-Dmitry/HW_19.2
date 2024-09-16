@@ -4,6 +4,17 @@ from catalog.models import Product, Version
 from config.settings import UNVALID_WORDS
 
 
+class StyleFormMixin:
+    """
+    Стилизация формы
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+
+
 def string_to_words(my_str: str) -> list:
     """
     Функция преобразует строку в список слов, используется для валидации - поиске запрещенных слов
@@ -23,10 +34,11 @@ def string_to_words(my_str: str) -> list:
     return output_list
 
 
-class ProductForm(forms.ModelForm):
+class ProductForm(StyleFormMixin, forms.ModelForm):
     """
     Форма для товара
     """
+
     class Meta:
         model = Product
         fields = '__all__'
@@ -54,10 +66,11 @@ class ProductForm(forms.ModelForm):
         return cleaned_data
 
 
-class VersionForm(forms.ModelForm):
+class VersionForm(StyleFormMixin, forms.ModelForm):
     """
     Форма для версии товара
     """
+
     class Meta:
         model = Version
         fields = '__all__'
