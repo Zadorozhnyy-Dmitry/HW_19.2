@@ -14,6 +14,7 @@
             <a class="p-2 btn btn-outline-primary" href="{% url 'users:logout' %}" class="text-white">Выйти</a>
         {% else %}
             <a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}" class="text-white">Войти</a>
+            <a class="p-2 btn btn-outline-primary" href="{% url 'users:register' %}" class="text-white">Регистрация</a>
         {% endif %}
     </nav>
 </div>
