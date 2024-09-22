@@ -138,3 +138,13 @@ UNVALID_WORDS = ['казино', 'криптовалюта', 'крипта', 'б
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = "zadorozhnyy83@yandex.ru"
+EMAIL_HOST_PASSWORD = "yymskkigpbdbxljv"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
