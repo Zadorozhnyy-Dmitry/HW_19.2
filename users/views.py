@@ -1,12 +1,15 @@
 import secrets
 from django.views.generic import CreateView
 
+from catalog.forms import StyleFormMixin
 from config.settings import EMAIL_HOST_USER
 from users.forms import UserRegisterForm
 from users.models import User
 from django.urls import reverse_lazy, reverse
 from django.core.mail import send_mail
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.forms import PasswordResetForm
 
 
 class UserCreateView(CreateView):
@@ -48,3 +51,11 @@ def email_verification(request, token):
     user.save()
     return redirect(reverse('users:login'))
 
+
+class UserPasswordResetView(StyleFormMixin, PasswordResetView):
+    """
+    Контроллер для восстановления пароля
+    """
+    template_name = 'users/password_reset_form.html'
+    form_class = PasswordResetForm
+    success_url = reverse_lazy('users:login')
