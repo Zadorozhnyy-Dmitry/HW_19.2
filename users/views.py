@@ -1,8 +1,8 @@
 import secrets
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, UpdateView
 
 from config.settings import EMAIL_HOST_USER
-from users.forms import UserRegisterForm
+from users.forms import UserRegisterForm, UserProfileForm
 from users.models import User
 from django.urls import reverse_lazy, reverse
 from django.core.mail import send_mail
@@ -83,3 +83,18 @@ class UserInValidEmail(TemplateView):
     Контроллер отработки исключения, когда нет пользователя с таким email
     """
     template_name = "users/invalid_email.html"
+
+
+class ProfileView(UpdateView):
+    """
+    Контроллер профиля пользователя
+    """
+    model = User
+    form_class = UserProfileForm
+    success_url = reverse_lazy('users:profile')
+
+    def get_object(self, queryset=None):
+        """
+        Передаем идентификатор пользователя
+        """
+        return self.request.user
