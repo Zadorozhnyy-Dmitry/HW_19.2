@@ -9,6 +9,7 @@ class Category(models.Model):
     """
     Модель описывает категории товаров
     """
+
     name = models.CharField(
         max_length=100,
         verbose_name="Название категории",
@@ -32,6 +33,7 @@ class Product(models.Model):
     """
     Модель описывает товар
     """
+
     name = models.CharField(
         max_length=100,
         verbose_name="Наименование",
@@ -58,10 +60,14 @@ class Product(models.Model):
         verbose_name="Цена за покупку", help_text="Введите стоимость товара"
     )
     created_at = models.DateField(
-        auto_now_add=True, verbose_name="Дата создания", help_text="Укажите дату записи в БД"
+        auto_now_add=True,
+        verbose_name="Дата создания",
+        help_text="Укажите дату записи в БД",
     )
     updated_at = models.DateField(
-        auto_now=True, verbose_name="Дата последнего изменения", help_text="Укажите дату последнего изменения",
+        auto_now=True,
+        verbose_name="Дата последнего изменения",
+        help_text="Укажите дату последнего изменения",
     )
 
     owner = models.ForeignKey(
@@ -71,7 +77,7 @@ class Product(models.Model):
         help_text="Введите владельца товара",
         related_name="products",
         blank=True,
-        null=True
+        null=True,
     )
 
     class Meta:
@@ -87,15 +93,21 @@ class Version(models.Model):
     """
     Модель описывает версию товара
     """
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='товар')
-    number_of_version = models.FloatField(verbose_name='номер версии')
-    title = models.CharField(max_length=150, verbose_name='название версии')
-    is_actual = models.BooleanField(default=False, verbose_name='признак текущей версии')
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="товар")
+    number_of_version = models.FloatField(verbose_name="номер версии")
+    title = models.CharField(max_length=150, verbose_name="название версии")
+    is_actual = models.BooleanField(
+        default=False, verbose_name="признак текущей версии"
+    )
 
     def __str__(self):
-        return f'{self.title}.версия {self.number_of_version}'
+        return f"{self.title}.версия {self.number_of_version}"
 
     class Meta:
-        verbose_name = 'Версия'
-        verbose_name_plural = 'Версии'
-        ordering = ('product', 'is_actual',)
+        verbose_name = "Версия"
+        verbose_name_plural = "Версии"
+        ordering = (
+            "product",
+            "is_actual",
+        )

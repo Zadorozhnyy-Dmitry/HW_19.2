@@ -1,4 +1,8 @@
-from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, UserChangeForm
+from django.contrib.auth.forms import (
+    UserCreationForm,
+    PasswordResetForm,
+    UserChangeForm,
+)
 from django import forms
 from catalog.forms import StyleFormMixin
 from users.models import User
@@ -11,7 +15,11 @@ class UserRegisterForm(StyleFormMixin, UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('email', 'password1', 'password2',)
+        fields = (
+            "email",
+            "password1",
+            "password2",
+        )
 
 
 class UserPasswordResetForm(StyleFormMixin, PasswordResetForm):
@@ -21,15 +29,16 @@ class UserPasswordResetForm(StyleFormMixin, PasswordResetForm):
 
     class Meta:
         model = User
-        fields = ('email',)
+        fields = ("email",)
 
 
 class UserProfileForm(StyleFormMixin, UserChangeForm):
     """
     Форма для редактирования профиля пользователя
     """
+
     model = User
-    fields = ('email', 'first_name', 'last_name', 'phone', 'avatar', 'country')
+    fields = ("email", "first_name", "last_name", "phone", "avatar", "country")
 
     def __init__(self, *args, **kwargs):
         """
@@ -37,4 +46,4 @@ class UserProfileForm(StyleFormMixin, UserChangeForm):
         """
         super().__init__(*args, **kwargs)
 
-        self.fields['password'].widget = forms.HiddenInput()
+        self.fields["password"].widget = forms.HiddenInput()

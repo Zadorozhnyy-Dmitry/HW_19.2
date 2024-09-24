@@ -17,6 +17,7 @@ class BlogCreateView(CreateView):
     """
     Контроллер создания сообщения
     """
+
     model = Blog
     fields = (
         "title",
@@ -40,6 +41,7 @@ class BlogUpdateView(UpdateView):
     """
     Контроллер редактирования сообщения
     """
+
     model = Blog
     fields = (
         "title",
@@ -68,6 +70,7 @@ class BlogListView(ListView):
     """
     Контроллер страницы просмотра сообщений блога
     """
+
     model = Blog
 
     def get_queryset(self, *args, **kwargs):
@@ -83,6 +86,7 @@ class BlogDetailView(DetailView):
     """
     Контроллер детального просмотра сообщений
     """
+
     model = Blog
 
     def get_object(self, queryset=None):
@@ -91,7 +95,7 @@ class BlogDetailView(DetailView):
         """
         self.object = super().get_object(queryset)
         self.object.views_count += 1
-        self.object.save(update_fields=['views_count'])
+        self.object.save(update_fields=["views_count"])
         return self.object
 
 
@@ -99,5 +103,6 @@ class BlogDeleteView(DeleteView):
     """
     Контроллер удаления сообщения
     """
+
     model = Blog
     success_url = reverse_lazy("blog:list")

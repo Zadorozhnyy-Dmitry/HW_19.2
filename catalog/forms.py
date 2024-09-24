@@ -12,7 +12,7 @@ class StyleFormMixin:
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs["class"] = "form-control"
 
 
 def string_to_words(my_str: str) -> list:
@@ -24,7 +24,7 @@ def string_to_words(my_str: str) -> list:
     output_list: list = []
 
     for item in output:
-        word: str = ''
+        word: str = ""
 
         for char in item:
             if char.isalpha():
@@ -41,28 +41,28 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 
     class Meta:
         model = Product
-        exclude = ('owner',)
+        exclude = ("owner",)
 
     def clean_name(self):
         """
         Валидация названия товара
         """
-        cleaned_data = self.cleaned_data['name']
+        cleaned_data = self.cleaned_data["name"]
         cleaned_data_list = string_to_words(cleaned_data)
         for word in cleaned_data_list:
             if word in UNVALID_WORDS:
-                raise forms.ValidationError('Текст содержит недопустимые слова')
+                raise forms.ValidationError("Текст содержит недопустимые слова")
         return cleaned_data
 
     def clean_description(self):
         """
         Валидация описания товара
         """
-        cleaned_data = self.cleaned_data['description']
+        cleaned_data = self.cleaned_data["description"]
         cleaned_data_list = string_to_words(cleaned_data)
         for word in cleaned_data_list:
             if word in UNVALID_WORDS:
-                raise forms.ValidationError('Текст содержит недопустимые слова')
+                raise forms.ValidationError("Текст содержит недопустимые слова")
         return cleaned_data
 
 
@@ -73,4 +73,4 @@ class VersionForm(StyleFormMixin, forms.ModelForm):
 
     class Meta:
         model = Version
-        fields = '__all__'
+        fields = "__all__"
