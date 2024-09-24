@@ -1,7 +1,6 @@
 import secrets
-from django.views.generic import CreateView
+from django.views.generic import CreateView, TemplateView
 
-from catalog.forms import StyleFormMixin
 from config.settings import EMAIL_HOST_USER
 from users.forms import UserRegisterForm
 from users.models import User
@@ -30,7 +29,7 @@ class UserCreateView(CreateView):
         user.token = token
         user.save()
         host = self.request.get_host()
-        url = f'http://{host}/user/email-confirm/{token}/'
+        url = f'http://{host}/users/email-confirm/{token}/'
         send_mail(
             subject='Подтверждение почты',
             message=f'Перейдите по ссылке для подтверждения почты {url}',
@@ -52,10 +51,35 @@ def email_verification(request, token):
     return redirect(reverse('users:login'))
 
 
-class UserPasswordResetView(StyleFormMixin, PasswordResetView):
+class UserPasswordResetView(PasswordResetView):
     """
     Контроллер для восстановления пароля
     """
     template_name = 'users/password_reset_form.html'
     form_class = PasswordResetForm
     success_url = reverse_lazy('users:login')
+
+    def form_valid(self, form):
+        email = form.cleaned_data['email']
+        try:
+            user = User.objects.get(email=email)
+            if user:
+                password = User.objects.make_random_password(length=10)
+                user.set_password(password)
+                user.save()
+                send_mail(
+                    subject='Сброс пароля',
+                    message=f' Ваш новый пароль {password}',
+                    from_email=EMAIL_HOST_USER,
+                    recipient_list=[user.email]
+                )
+            return redirect(reverse('users:login'))
+        except:
+            return redirect(reverse('users:invalid_email'))
+
+
+class UserInValidEmail(TemplateView):
+    """
+    Контроллер отработки исключения, когда нет пользователя с таким email
+    """
+    template_name = "users/invalid_email.html"

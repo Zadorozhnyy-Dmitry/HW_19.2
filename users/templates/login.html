@@ -1,7 +1,7 @@
 {% extends 'catalog/home.html' %}
 
 {% block content %}
-<div class="col-12">
+<div class="col-12" xmlns="http://www.w3.org/1999/html">
     <form class="row" method="post" enctype="multipart/form-data">
         <div class="clo-3"></div>
         <div class="col-12">
@@ -17,8 +17,8 @@
 
                             {% csrf_token %}
                             {{ form.as_p }}
-                            <button type="submit" class="btn btn-primary">Войти</button>
-                            <a href="{% url 'users:password_reset' %}" class="bnt btn-outline-primary">Забыли пароль?</a>
+                            <button type="submit" class="p-2 btn btn-primary">Войти</button>
+                            </p><a href="{% url 'users:password_reset' %}" class="d-inline-flex gap-1">Забыли пароль?</a></p>
 
                         </div>
                     </div>
