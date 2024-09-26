@@ -29,7 +29,7 @@
                 </ul>
                 <div class="btn-group">
                     <a class="btn btn-outline-primary" href="{% url 'catalog:product_about' object.pk %}" role="button">О товаре</a>
-                    {% if perms.catalog.set_published_status and perms.catalog.can_edit_description and perms.catalog.can_edit_category or user == catalog.owner %}
+                    {% if perms.catalog.set_published_status and perms.catalog.can_edit_description and perms.catalog.can_edit_category or user == object.owner %}
                         <a class="btn btn-outline-primary" href="{% url 'catalog:update_product' object.pk %}" role="button">Редактировать</a>
                     {% endif %}
                     <a class="btn btn-outline-primary" href="#" role="button">Купить</a>

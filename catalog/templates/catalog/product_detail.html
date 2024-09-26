@@ -21,7 +21,7 @@
                     <p>Дата изменения объявления: {{ object.updated_at }}</p>
                 </ul>
                 <div class="btn-group">
-                    {% if perms.catalog.set_published_status and perms.catalog.can_edit_description and perms.catalog.can_edit_category or user == catalog.owner %}
+                    {% if perms.catalog.set_published_status and perms.catalog.can_edit_description and perms.catalog.can_edit_category or user == object.owner %}
                         <a class="btn btn-outline-primary" href="{% url 'catalog:update_product' object.pk %}" role="button">Редактировать</a>
                     {% endif %}
                     <a class="btn btn-outline-primary" href="{% url 'catalog:home' %}" role="button">Назад</a>
