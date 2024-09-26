@@ -9,7 +9,7 @@
 
     {% for object in object_list %}
     {% if object.is_published %}
-    <div class="col-3">
+    <div class="col-4">
         <div class="card mb-4 box-shadow">
             <div class="card-header">
                 <img class='card-img-top' src="{{ object.photo | media_filter}}">
@@ -28,14 +28,16 @@
                     </li>
                 </ul>
                 <div class="btn-group">
-                    <a class="btn btn-lg btn-block btn-outline-primary"
-                       href="{% url 'catalog:product_about' object.pk %}" role="button">О товаре</a>
-                    <a class="btn btn-lg btn-block btn-outline-primary" href="#" role="button">Купить</a>
+                    <a class="btn btn-outline-primary" href="{% url 'catalog:product_about' object.pk %}" role="button">О товаре</a>
+                    {% if perms.catalog.set_published_status and perms.catalog.can_edit_description and perms.catalog.can_edit_category or user == catalog.owner %}
+                        <a class="btn btn-outline-primary" href="{% url 'catalog:product_about' object.pk %}" role="button">Редактировать</a>
+                    {% endif %}
+                    <a class="btn btn-outline-primary" href="#" role="button">Купить</a>
                 </div>
             </div>
         </div>
     </div>
-    {% endif%}
+    {% endif %}
     {% endfor %}
 </div>
 
