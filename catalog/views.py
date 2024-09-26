@@ -42,12 +42,21 @@ def contact(request):
     return render(request, "catalog/contact.html")
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     """
     Контроллер детального отображения товара
     """
 
     model = Product
+
+    def get_object(self, queryset=None):
+        """
+        Только владелец может просматривать карточук товара
+        """
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            return self.object
+        raise PermissionDenied
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
