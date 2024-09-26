@@ -37,8 +37,6 @@ class UserCreateView(CreateView):
             from_email=EMAIL_HOST_USER,
             recipient_list=[user.email],
         )
-        print(f"token_valid: {token}")
-        print(f"url_valid: {url}")
         return super().form_valid(form)
 
 

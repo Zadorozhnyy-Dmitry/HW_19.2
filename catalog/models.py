@@ -79,11 +79,17 @@ class Product(models.Model):
         blank=True,
         null=True,
     )
+    is_published = models.BooleanField(default=False, verbose_name="Опубликовано")
 
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
         ordering = ["name", "category", "created_at", "updated_at"]
+        permissions = [
+            ("set_published_status", "can change status is_published"),
+            ("can_edit_description", "can edit description"),
+            ("can_edit_category", "can edit category"),
+        ]
 
     def __str__(self):
         return f"{self.name} {self.category}"
