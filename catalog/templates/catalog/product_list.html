@@ -8,6 +8,7 @@
     </div>
 
     {% for object in object_list %}
+    {% if object.is_published %}
     <div class="col-3">
         <div class="card mb-4 box-shadow">
             <div class="card-header">
@@ -34,6 +35,7 @@
             </div>
         </div>
     </div>
+    {% endif%}
     {% endfor %}
 </div>
 
