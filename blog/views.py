@@ -11,9 +11,10 @@ from django.urls import reverse_lazy, reverse
 from blog.models import Blog
 
 from pytils.translit import slugify
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     """
     Контроллер создания сообщения
     """
@@ -24,6 +25,7 @@ class BlogCreateView(CreateView):
         "body",
         "preview",
     )
+    permission_required = 'blog.add_blog'
     success_url = reverse_lazy("blog:list")
 
     def form_valid(self, form):
@@ -37,7 +39,7 @@ class BlogCreateView(CreateView):
         return super().form_valid(form)
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     """
     Контроллер редактирования сообщения
     """
@@ -48,6 +50,7 @@ class BlogUpdateView(UpdateView):
         "body",
         "preview",
     )
+    permission_required = 'blog.change_blog'
 
     def form_valid(self, form):
         """
@@ -82,12 +85,13 @@ class BlogListView(ListView):
         return queryset
 
 
-class BlogDetailView(DetailView):
+class BlogDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
     Контроллер детального просмотра сообщений
     """
 
     model = Blog
+    permission_required = 'blog.view_blog'
 
     def get_object(self, queryset=None):
         """
@@ -99,10 +103,10 @@ class BlogDetailView(DetailView):
         return self.object
 
 
-class BlogDeleteView(DeleteView):
+class BlogDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     """
     Контроллер удаления сообщения
     """
-
     model = Blog
+    permission_required = 'blog.delete_blog'
     success_url = reverse_lazy("blog:list")
