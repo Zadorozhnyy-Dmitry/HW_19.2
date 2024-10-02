@@ -25,7 +25,7 @@ class BlogCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         "body",
         "preview",
     )
-    permission_required = 'blog.add_blog'
+    permission_required = "blog.add_blog"
     success_url = reverse_lazy("blog:list")
 
     def form_valid(self, form):
@@ -50,7 +50,7 @@ class BlogUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         "body",
         "preview",
     )
-    permission_required = 'blog.change_blog'
+    permission_required = "blog.change_blog"
 
     def form_valid(self, form):
         """
@@ -91,7 +91,7 @@ class BlogDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     """
 
     model = Blog
-    permission_required = 'blog.view_blog'
+    permission_required = "blog.view_blog"
 
     def get_object(self, queryset=None):
         """
@@ -107,6 +107,7 @@ class BlogDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     """
     Контроллер удаления сообщения
     """
+
     model = Blog
-    permission_required = 'blog.delete_blog'
+    permission_required = "blog.delete_blog"
     success_url = reverse_lazy("blog:list")
