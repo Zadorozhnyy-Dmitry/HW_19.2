@@ -8,13 +8,13 @@ from django.views.generic import (
 )
 
 from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
-from catalog.models import Product, Version
+from catalog.models import Product, Version, Category
 from django.urls import reverse_lazy
 from django.forms import inlineformset_factory
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 
-from catalog.services import get_products_from_cache
+from catalog.services import get_objects_from_cache
 
 
 class ProductListView(ListView):
@@ -38,7 +38,10 @@ class ProductListView(ListView):
         return context_data
 
     def get_queryset(self):
-        return get_products_from_cache()
+        """
+        Вызов сервисной функции, для кэширования
+        """
+        return get_objects_from_cache(Product)
 
 
 def contact(request):
@@ -137,9 +140,9 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         if user == self.object.owner:
             return ProductForm
         if (
-            user.has_perm("catalog.set_published_status")
-            and user.has_perm("catalog.can_edit_description")
-            and user.has_perm("catalog.can_edit_category")
+                user.has_perm("catalog.set_published_status")
+                and user.has_perm("catalog.can_edit_description")
+                and user.has_perm("catalog.can_edit_category")
         ):
             return ProductModeratorForm
         raise PermissionDenied
@@ -158,3 +161,16 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         проверка на суперюзера
         """
         return self.request.user.is_superuser
+
+
+class CategoryListView(ListView):
+    """
+    Контроллер для списка категорий
+    """
+    model = Category
+
+    def get_queryset(self):
+        """
+        Вызов сервисной функции, для кэширования
+        """
+        return get_objects_from_cache(Category)

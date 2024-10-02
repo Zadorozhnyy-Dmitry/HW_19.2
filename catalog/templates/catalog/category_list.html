@@ -1,0 +1,23 @@
+{% extends 'catalog/home.html' %}
+{% block content %}
+
+<div class="row text-center">
+
+    {% for object in object_list %}
+    <div class="col-4">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                    <l1>Описание:</l1>
+                    <li>{{ object.description | truncatechars:100 }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

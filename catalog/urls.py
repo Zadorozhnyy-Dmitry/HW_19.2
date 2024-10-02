@@ -7,6 +7,7 @@ from catalog.views import (
     ProductCreateView,
     ProductUpdateView,
     ProductDeleteView,
+    CategoryListView,
 )
 from django.views.decorators.cache import cache_page, never_cache
 
@@ -28,4 +29,5 @@ urlpatterns = [
         name="update_product",
     ),
     path("delete/<int:pk>/", ProductDeleteView.as_view(), name="delete_product"),
+    path('category', CategoryListView.as_view(), name='category_list')
 ]
