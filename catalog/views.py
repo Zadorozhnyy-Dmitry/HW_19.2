@@ -1,11 +1,20 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 
-from catalog.forms import ProductForm, VersionForm
-from catalog.models import Product, Version
+from catalog.forms import ProductForm, VersionForm, ProductModeratorForm
+from catalog.models import Product, Version, Category
 from django.urls import reverse_lazy
 from django.forms import inlineformset_factory
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
+
+from catalog.services import get_objects_from_cache
 
 
 class ProductListView(ListView):
@@ -28,6 +37,12 @@ class ProductListView(ListView):
 
         return context_data
 
+    def get_queryset(self):
+        """
+        Вызов сервисной функции, для кэширования
+        """
+        return get_objects_from_cache(Product)
+
 
 def contact(request):
     """
@@ -41,12 +56,21 @@ def contact(request):
     return render(request, "catalog/contact.html")
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     """
     Контроллер детального отображения товара
     """
 
     model = Product
+
+    def get_object(self, queryset=None):
+        """
+        Только владелец может просматривать карточук товара
+        """
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            return self.object
+        raise PermissionDenied
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
@@ -106,3 +130,47 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
             formset.save()
 
         return super().form_valid(form)
+
+    def get_form_class(self):
+        """
+        Проверка, что пользователь владелец товара,
+        Проверка прав модератора на редактирование товара
+        """
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if (
+                user.has_perm("catalog.set_published_status")
+                and user.has_perm("catalog.can_edit_description")
+                and user.has_perm("catalog.can_edit_category")
+        ):
+            return ProductModeratorForm
+        raise PermissionDenied
+
+
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """
+    Контроллер удаления товара
+    """
+
+    model = Product
+    success_url = reverse_lazy("catalog:home")
+
+    def test_func(self):
+        """
+        проверка на суперюзера
+        """
+        return self.request.user.is_superuser
+
+
+class CategoryListView(ListView):
+    """
+    Контроллер для списка категорий
+    """
+    model = Category
+
+    def get_queryset(self):
+        """
+        Вызов сервисной функции, для кэширования
+        """
+        return get_objects_from_cache(Category)
